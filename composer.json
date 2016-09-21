@@ -1,0 +1,13 @@
+{
+    "name": "noprotocol/env-omroep",
+    "description": "Patch PHP/Laravel to work in different environments",
+    "require-dev": {
+        "vlucas/phpdotenv": "*"
+    },
+    "autoload": {
+        "files": ["src/bootstrap.php"],
+        "psr-4": {
+            "Noprotocol\\EnvOmroep\\": "src/"
+        }
+    }
+}
