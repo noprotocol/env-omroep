@@ -52,15 +52,16 @@ Place this script in the public folder and remove it after using:
 
 ```
 <?php
-    header('Content-Type: text/plain');
-    ini_set('display_errors', true);
 
-    echo "Preparing data folder\n";
-    require(__DIR__ . '/../vendor/autoload.php');
+header('Content-Type: text/plain');
+ini_set('display_errors', true);
 
-    $dataFolder = new Noprotocol\EnvOmroep\DataFolder();
-    $dataFolder->createLaravelFolders();
-    $dataFolder->mkdir('uploads');
+echo "Preparing data folder\n";
+require(__DIR__ . '/../vendor/autoload.php');
 
-    echo "completed\n";
+$dataFolder = new Noprotocol\EnvOmroep\DataFolder();
+$dataFolder->createLaravelFolders();
+$dataFolder->mkdir('uploads');
+
+echo "completed\n";
 ```
