@@ -22,9 +22,15 @@ Add **noprotocol/env-omroep** as a composer dependancy:
 ## Configuration
 
 Add `DATA_PATH` to your `.env`
- 
+
 ```
 DATA_PATH=/e/ap/$domain/data
+```
+
+Add `DATA_STORAGE_COMMANDS` to your `.env` if you need certain commands to use the new storage path
+
+```
+DATA_STORAGE_COMMANDS=site:canlog,site:another
 ```
 
 In /bootstap/app.php change:

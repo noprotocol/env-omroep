@@ -17,7 +17,7 @@ class LaravelApplication extends Application {
             $dotenv = new \Dotenv\Dotenv($this->environmentPath(), $this->environmentFile());
             $dotenv->load();
         }
-        if (env('DATA_PATH') && !$this->runningInConsole()) {
+        if (env('DATA_PATH') && $this->needsStorage()) {
             $this->useStoragePath(env('DATA_PATH').'/storage');
         }
     }
@@ -27,6 +27,17 @@ class LaravelApplication extends Application {
             return env('DATA_PATH') . '/bootstrap/services.php';
         }
         return parent::getCachedServicesPath();
+    }
+
+    private function needsStorage() {
+        if($this->runningInConsole()){
+            if(env('DATA_STORAGE_COMMANDS') && isset($_SERVER['argv'][1])){
+                $commandsThatNeedStorage = explode(',' , env('DATA_STORAGE_COMMANDS'));
+                return in_array($_SERVER['argv'][1], $commandsThatNeedStorage);
+            }
+            return false;
+        }
+        return true;
     }
 
 }
