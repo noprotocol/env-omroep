@@ -42,3 +42,25 @@ to
 $app = new Noprotocol\EnvOmroep\LaravelApplication(
 ```
 (If you're using a custom Application class, update superclass to Noprotocol\EnvOmroep\LaravelApplication)
+
+## Creating folders
+
+The omroep server does not like when you create folders via FTP or SSH on the data disk. The permissions get all wrong and it is a mess to fix.
+You can use this script to create the folders via the webserver user.
+
+Place this script in the public folder and remove it after using:
+
+```
+<?php
+    header('Content-Type: text/plain');
+    ini_set('display_errors', true);
+
+    echo "Preparing data folder\n";
+    require(__DIR__ . '/../vendor/autoload.php');
+
+    $dataFolder = new Noprotocol\EnvOmroep\DataFolder();
+    $dataFolder->createLaravelFolders();
+    $dataFolder->mkdir('uploads');
+
+    echo "completed\n";
+```
