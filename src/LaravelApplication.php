@@ -34,7 +34,7 @@ class LaravelApplication extends Application {
     private function needsStorage() {
         if ($this->runningInConsole()) {
             if (env('DATA_STORAGE_COMMANDS') && isset($_SERVER['argv'][1])) {
-                $commandsThatNeedStorage = explode(',', env('DATA_STORAGE_COMMANDS'));
+                $commandsThatNeedStorage = array_map('trim', explode(',', env('DATA_STORAGE_COMMANDS')));
                 return in_array($_SERVER['argv'][1], $commandsThatNeedStorage);
             }
             return false;
