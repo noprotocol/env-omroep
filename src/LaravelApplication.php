@@ -11,14 +11,16 @@ class LaravelApplication extends Application {
 
     public function __construct($basePath = null) {
         parent::__construct($basePath);
-        if (class_exists('Dotenv', true)) { // Laravel 5.1
-            \Dotenv::load($this->environmentPath(), $this->environmentFile());
-        } elseif (class_exists('Dotenv\Dotenv', true)) { // Laravel 5.2+
-            $dotenv = new \Dotenv\Dotenv($this->environmentPath(), $this->environmentFile());
-            $dotenv->load();
+        if (file_exists($this->environmentPath() . '/' . $this->environmentFile())) {
+            if (class_exists('Dotenv', true)) { // Laravel 5.1
+                \Dotenv::load($this->environmentPath(), $this->environmentFile());
+            } elseif (class_exists('Dotenv\Dotenv', true)) { // Laravel 5.2+
+                $dotenv = new \Dotenv\Dotenv($this->environmentPath(), $this->environmentFile());
+                $dotenv->load();
+            }
         }
         if (env('DATA_PATH') && $this->needsStorage()) {
-            $this->useStoragePath(env('DATA_PATH').'/storage');
+            $this->useStoragePath(env('DATA_PATH') . '/storage');
         }
     }
 
@@ -30,9 +32,9 @@ class LaravelApplication extends Application {
     }
 
     private function needsStorage() {
-        if($this->runningInConsole()){
-            if(env('DATA_STORAGE_COMMANDS') && isset($_SERVER['argv'][1])){
-                $commandsThatNeedStorage = explode(',' , env('DATA_STORAGE_COMMANDS'));
+        if ($this->runningInConsole()) {
+            if (env('DATA_STORAGE_COMMANDS') && isset($_SERVER['argv'][1])) {
+                $commandsThatNeedStorage = explode(',', env('DATA_STORAGE_COMMANDS'));
                 return in_array($_SERVER['argv'][1], $commandsThatNeedStorage);
             }
             return false;
